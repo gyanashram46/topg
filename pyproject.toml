@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topg-agent"
+version = "0.1.0"
+description = "Phase-1 level marking and signal generation agent"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.2.0",
+  "numpy>=1.26.0",
+  "python-dateutil>=2.9.0"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
