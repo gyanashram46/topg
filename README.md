@@ -1,40 +1,45 @@
-# topg — Phase 1 Trading Agent
+# topg — Phase 2 Chart Assistant (No Auto-Trading)
 
-Phase 1 provides a **mark-only + signal-only** architecture for your strategy.
+This project is an offline, CSV-driven assistant for **XAUUSD** with **IST** assumptions.
 
-This phase does **not** place live trades. It focuses on:
+It does **not** place orders and does not connect to broker APIs.
 
-- loading candles from CSV,
-- detecting structure levels (swing highs/lows),
-- generating setup signals,
-- exporting levels/signals for review.
+## What it does
+- Marks swing levels (phase-1 behavior kept).
+- Marks deterministic structure confirmations.
+- Detects CHoCH with 2-candle close confirmation.
+- Applies MTF Daily/4H/1H condition ladder.
+- Applies IST news blackout windows.
+- Applies R:R and risk guardrails.
+- Exports valid/rejected setup files.
 
-## Project layout
-
-- `docs/strategy_rules.md` — convert your strategy notes into strict, machine-readable rules.
-- `data/sample_ohlc.csv` — sample candle data format.
-- `src/topg_agent/config.py` — settings/dataclasses.
-- `src/topg_agent/levels.py` — level detection logic.
-- `src/topg_agent/signals.py` — signal generation logic.
-- `src/topg_agent/io.py` — data load/save helpers.
-- `src/topg_agent/main.py` — CLI entrypoint to run phase-1 pipeline.
-- `tests/` — basic unit tests.
-
-## Quick start
-
+## Run (non-coder quick steps)
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\\Scripts\\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python -m src.topg_agent.main --input data/sample_ohlc.csv --outdir outputs
 ```
 
-Outputs:
-
+## Outputs
 - `outputs/levels.csv`
 - `outputs/signals.csv`
+- `outputs/valid_setups.csv`
+- `outputs/rejected_setups.csv` (includes `reject_reason`)
 
-## Next step
+## News schedule file
+Edit `data/news_events.csv` in IST using columns:
+- `event_name`
+- `event_time_ist`
+- `window_before_min`
+- `window_after_min`
 
-Fill `docs/strategy_rules.md` with your exact entry/exit/invalidation rules.
-Then we map each rule into code modules incrementally.
+## Module map
+- `src/topg_agent/config.py`
+- `src/topg_agent/structure.py`
+- `src/topg_agent/choch.py`
+- `src/topg_agent/mtf.py`
+- `src/topg_agent/news.py`
+- `src/topg_agent/risk.py`
+- `src/topg_agent/validation.py`
+- `src/topg_agent/main.py`

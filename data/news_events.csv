@@ -1,0 +1,4 @@
+event_name,event_time_ist,window_before_min,window_after_min
+FOMC_SAMPLE,2026-08-01 23:30:00,45,45
+CPI_SAMPLE,2026-08-05 18:00:00,30,30
+NFP_SAMPLE,2026-08-07 18:00:00,30,30
